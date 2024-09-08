@@ -1,28 +1,23 @@
+# AuthorSerializer uses a nested BookSerializer to serialize related books dynamically.
+# This makes it easier to handle the relationship between authors and their books.
+
+from django.utils import timezone
 from rest_framework import serializers
-from .models import Book 
 from .models import Book, Author
-from datetime import datetime 
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = '__all__'
- # For checking the current year
+        fields = ['title', 'publication_year', 'author']
 
-class BookSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Book
-        fields = '__all__'
-
-    # Add custom validation to check the publication year
+    # Custom validation to ensure the publication year is not in the future
     def validate_publication_year(self, value):
-        if value > datetime.now().year:
-            raise serializers.ValidationError("Publication year cannot be in the future.")
+        if value > timezone.now().year:
+            raise serializers.ValidationError("The publication year cannot be in the future.")
         return value
 
 class AuthorSerializer(serializers.ModelSerializer):
-    # Nesting BookSerializer to serialize related books dynamically
-    books = BookSerializer(many=True, read_only=True)
+    books = BookSerializer(many=True, read_only=True)  # Nested BookSerializer
 
     class Meta:
         model = Author
