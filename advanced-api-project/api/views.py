@@ -21,6 +21,7 @@ class BookListView(generics.ListAPIView):
     ordering_fields = ['publication_year']
     ordering = ['title']
     filters.OrderingFilter
+    filters.SearchFilter
 
     # Only render JSON to avoid template error in browsable API
     # renderer_classes = [JSONRenderer]  # Optional, uncomment if needed
