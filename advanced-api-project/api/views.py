@@ -5,6 +5,7 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.renderers import JSONRenderer
+from django_filters import rest_framework
 
 # ListView - Retrieve all books
 class BookListView(generics.ListAPIView):
@@ -19,6 +20,8 @@ class BookListView(generics.ListAPIView):
     search_fields = ['title']
     ordering_fields = ['publication_year']
     ordering = ['title']
+    filters.OrderingFilter
+    filters.SearchFilter
 
     # Only render JSON to avoid template error in browsable API
     # renderer_classes = [JSONRenderer]  # Optional, uncomment if needed
