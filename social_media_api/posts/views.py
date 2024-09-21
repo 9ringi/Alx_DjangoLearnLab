@@ -86,3 +86,5 @@ def unlike_post(request, pk):
             return JsonResponse({"message": "Post unliked"}, status=200)
         return JsonResponse({"message": "You haven't liked this post"}, status=400)
     return JsonResponse({"message": "Unauthorized"}, status=403)
+
+["generics.get_object_or_404(Post, pk=pk)"]
